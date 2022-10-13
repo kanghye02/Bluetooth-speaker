@@ -1,0 +1,435 @@
+/*------------------------------HEADER-----------------------------*/
+
+/*--------------------LIBRARY MUSIC BRETT HAGMAN-------------------*/
+
+// Đây là thư viện danh sách các nốt nhạc 
+// Mỗi nốt nhạc được định nghĩa thành một âm
+// Kí hiệu nốt nhạc: C=Do, D=Re, E=Mi, F=Fa, G=Sol, A=La, B= Si
+
+#define NOTE_B0  31
+#define NOTE_C1  33
+#define NOTE_CS1 35
+#define NOTE_D1  37
+#define NOTE_DS1 39
+#define NOTE_E1  41
+#define NOTE_F1  44
+#define NOTE_FS1 46
+#define NOTE_G1  49
+#define NOTE_GS1 52
+#define NOTE_A1  55
+#define NOTE_AS1 58
+#define NOTE_B1  62
+#define NOTE_C2  65
+#define NOTE_CS2 69
+#define NOTE_D2  73
+#define NOTE_DS2 78
+#define NOTE_E2  82
+#define NOTE_F2  87
+#define NOTE_FS2 93
+#define NOTE_G2  98
+#define NOTE_GS2 104
+#define NOTE_A2  110
+#define NOTE_AS2 117
+#define NOTE_B2  123
+#define NOTE_C3  131
+#define NOTE_CS3 139
+#define NOTE_D3  147
+#define NOTE_DS3 156
+#define NOTE_E3  165
+#define NOTE_F3  175
+#define NOTE_FS3 185
+#define NOTE_G3  196
+#define NOTE_GS3 208
+#define NOTE_A3  220
+#define NOTE_AS3 233
+#define NOTE_B3  247
+#define NOTE_C4  262
+#define NOTE_CS4 277
+#define NOTE_D4  294
+#define NOTE_DS4 311
+#define NOTE_E4  330
+#define NOTE_F4  349
+#define NOTE_FS4 370
+#define NOTE_G4  392
+#define NOTE_GS4 415
+#define NOTE_A4  440
+#define NOTE_AS4 466
+#define NOTE_B4  494
+#define NOTE_C5  523
+#define NOTE_CS5 554
+#define NOTE_D5  587
+#define NOTE_DS5 622
+#define NOTE_E5  659
+#define NOTE_F5  698
+#define NOTE_FS5 740
+#define NOTE_G5  784
+#define NOTE_GS5 831
+#define NOTE_A5  880
+#define NOTE_AS5 932
+#define NOTE_B5  988
+#define NOTE_C6  1047
+#define NOTE_CS6 1109
+#define NOTE_D6  1175
+#define NOTE_DS6 1245
+#define NOTE_E6  1319
+#define NOTE_F6  1397
+#define NOTE_FS6 1480
+#define NOTE_G6  1568
+#define NOTE_GS6 1661
+#define NOTE_A6  1760
+#define NOTE_AS6 1865
+#define NOTE_B6  1976
+#define NOTE_C7  2093
+#define NOTE_CS7 2217
+#define NOTE_D7  2349
+#define NOTE_DS7 2489
+#define NOTE_E7  2637
+#define NOTE_F7  2794
+#define NOTE_FS7 2960
+#define NOTE_G7  3136
+#define NOTE_GS7 3322
+#define NOTE_A7  3520
+#define NOTE_AS7 3729
+#define NOTE_B7  3951
+#define NOTE_C8  4186
+#define NOTE_CS8 4435
+#define NOTE_D8  4699
+#define NOTE_DS8 4978
+#define REST      0
+
+/*------------------------END LIBRARY MUSIC------------------------*/
+
+/*--------------------------READ TERMINAL--------------------------*/
+String data; // Biến điều khiển bài hát - Dữ liệu nhập từ điện thoại được lưu vào đây 
+/*-------------------------------END-------------------------------*/
+
+/*------------------------------MUSIC 1----------------------------*/
+ 
+int tempo_ms1 = 140; // Nhịp độ bài hát 
+int music_ms1 = 2; // Music 1 được kết nối với chân digital 2  
+
+/*-----------------------Mảng nhịp điệu------------------*/
+// Thời gian các nốt nhạc: 4 = 1/4 nốt nhạc, 8 = 1/8 nốt nhạc, ...
+int melody_ms1[] = {
+  // We Wish You a Merry Christmas
+  NOTE_C5,4, 
+  NOTE_F5,4, NOTE_F5,8, NOTE_G5,8, NOTE_F5,8, NOTE_E5,8,
+  NOTE_D5,4, NOTE_D5,4, NOTE_D5,4,
+  NOTE_G5,4, NOTE_G5,8, NOTE_A5,8, NOTE_G5,8, NOTE_F5,8,
+  NOTE_E5,4, NOTE_C5,4, NOTE_C5,4,
+  NOTE_A5,4, NOTE_A5,8, NOTE_AS5,8, NOTE_A5,8, NOTE_G5,8,
+  NOTE_F5,4, NOTE_D5,4, NOTE_C5,8, NOTE_C5,8,
+  NOTE_D5,4, NOTE_G5,4, NOTE_E5,4,
+
+  NOTE_F5,2, NOTE_C5,4, 
+  NOTE_F5,4, NOTE_F5,8, NOTE_G5,8, NOTE_F5,8, NOTE_E5,8,
+  NOTE_D5,4, NOTE_D5,4, NOTE_D5,4,
+  NOTE_G5,4, NOTE_G5,8, NOTE_A5,8, NOTE_G5,8, NOTE_F5,8,
+  NOTE_E5,4, NOTE_C5,4, NOTE_C5,4,
+};
+/*-------------------------------------------------------*/
+
+int notes_ms1 = sizeof(melody_ms1) / sizeof(melody_ms1[0]) / 2; // Số lượng nốt nhạc
+int wholenote_ms1 = (60000 * 4) / tempo_ms1; // Thời lượng nốt chấm
+int divider_ms1 = 0, noteDuration_ms1 = 0;
+
+/*
+ * note : nốt nhạc
+ * whole note : nốt tròn 
+ * note duration : độ dài của một nốt nhạc tính theo thời gian
+ * divider : bộ chia
+ * Thông số là thời gian ms
+ */
+ 
+/*----------------------------END MUSIC 1--------------------------*/
+
+/*------------------------------MUSIC 2----------------------------*/
+
+int tempo_ms2 = 120; // Nhịp độ bài hát
+int music_ms2 = 8;  // Music 2 được kết nối với chân digital 8 
+
+/*-----------------------Mảng nhịp điệu------------------*/
+// Thời gian các nốt nhạc: 4 = 1/4 nốt nhạc, 8 = 1/8 nốt nhạc, ...
+int melody_ms2[] = {
+  // Pink Panther theme
+  REST,2, REST,4, REST,8, NOTE_DS4,8, 
+  NOTE_E4,-4, REST,8, NOTE_FS4,8, NOTE_G4,-4, REST,8, NOTE_DS4,8,
+  NOTE_E4,-8, NOTE_FS4,8,  NOTE_G4,-8, NOTE_C5,8, NOTE_B4,-8, NOTE_E4,8, NOTE_G4,-8, NOTE_B4,8,   
+  NOTE_AS4,2, NOTE_A4,-16, NOTE_G4,-16, NOTE_E4,-16, NOTE_D4,-16, 
+  NOTE_E4,2, REST,4, REST,8, NOTE_DS4,4,
+
+  NOTE_E4,-4, REST,8, NOTE_FS4,8, NOTE_G4,-4, REST,8, NOTE_DS4,8,
+  NOTE_E4,-8, NOTE_FS4,8,  NOTE_G4,-8, NOTE_C5,8, NOTE_B4,-8, NOTE_G4,8, NOTE_B4,-8, NOTE_E5,8, 
+};
+/*-------------------------------------------------------*/
+
+int notes_ms2 = sizeof(melody_ms2) / sizeof(melody_ms2[0]) / 2; // Số lượng nốt nhạc
+int wholenote_ms2 = (60000 * 4) / tempo_ms2; // Thời lượng nốt chấm
+int divider_ms2 = 0, noteDuration_ms2 = 0;
+
+/*
+ * note : nốt nhạc
+ * whole note : nốt tròn 
+ * note duration : độ dài của một nốt nhạc tính theo thời gian
+ * divider : bộ chia
+ * Thông số là thời gian ms
+ */
+
+/*----------------------------END MUSIC 2--------------------------*/
+
+/*------------------------------MUSIC 3----------------------------*/
+
+int tempo_ms3 = 144; // Nhịp độ bài hát
+int music_ms3 = 9; // Music 3 được kết nối với chân digital 9
+
+/*-----------------------Mảng nhịp điệu------------------*/
+// Thời gian các nốt nhạc: 4 = 1/4 nốt nhạc, 8 = 1/8 nốt nhạc, ...
+int melody_ms3[] = {
+  // Tetris song
+  NOTE_E5, 4,  NOTE_B4,8,  NOTE_C5,8,  NOTE_D5,4,  NOTE_C5,8,  NOTE_B4,8,
+  NOTE_A4, 4,  NOTE_A4,8,  NOTE_C5,8,  NOTE_E5,4,  NOTE_D5,8,  NOTE_C5,8,
+  NOTE_B4, -4,  NOTE_C5,8,  NOTE_D5,4,  NOTE_E5,4,
+  NOTE_C5, 4,  NOTE_A4,4,  NOTE_A4,8,  NOTE_A4,4,  NOTE_B4,8,  NOTE_C5,8,
+
+  NOTE_D5, -4,  NOTE_F5,8,  NOTE_A5,4,  NOTE_G5,8,  NOTE_F5,8,
+  NOTE_E5, -4,  NOTE_C5,8,  NOTE_E5,4,  NOTE_D5,8,  NOTE_C5,8,
+  NOTE_B4, 4,  NOTE_B4,8,  NOTE_C5,8,  NOTE_D5,4,  NOTE_E5,4,
+  NOTE_C5, 4,  NOTE_A4,4,  NOTE_A4,4, REST, 4,
+};
+/*-------------------------------------------------------*/
+
+int notes_ms3 = sizeof(melody_ms3) / sizeof(melody_ms3[0]) / 2; // Số lượng nốt nhạc
+int wholenote_ms3 = (60000 * 4) / tempo_ms3; // Thời lượng nốt chấm
+int divider_ms3 = 0, noteDuration_ms3 = 0;
+
+ /*
+ * note : nốt nhạc
+ * whole note : nốt tròn 
+ * note duration : độ dài của một nốt nhạc tính theo thời gian
+ * divider : bộ chia
+ * Thông số là thời gian ms
+ */
+
+/*----------------------------END MUSIC 3--------------------------*/
+
+/*------------------------------MUSIC 4----------------------------*/
+
+int music_ms4 = 10; // Music 4 được kết nối với chân digital 10
+int tempo_ms4 = 180; // Nhịp độ bài hát
+
+/*-----------------------Mảng nhịp điệu------------------*/
+// Thời gian các nốt nhạc: 4 = 1/4 nốt nhạc, 8 = 1/8 nốt nhạc, ...
+int melody_ms4[] = {
+  // Nokia Ringtone   
+  NOTE_E5, 8, NOTE_D5, 8, NOTE_FS4, 4, NOTE_GS4, 4, 
+  NOTE_CS5, 8, NOTE_B4, 8, NOTE_D4, 4, NOTE_E4, 4, 
+  NOTE_B4, 8, NOTE_A4, 8, NOTE_CS4, 4, NOTE_E4, 4,
+  NOTE_A4, 2, 
+};
+/*-------------------------------------------------------*/
+
+// Hàm sizeof cho biết byte, mỗi giá trị int bao gồm 2 byte (16 bit)
+// Có 2 giá trị trên mỗi nốt (Cao độ và Trường độ), vì vậy đối với mỗi nốt có 4 byte
+int notes_ms4 = sizeof(melody_ms4) / sizeof(melody_ms4[0]) / 2;
+
+int wholenote_ms4 = (60000 * 4) / tempo_ms4; // Thời lượng nốt chấm
+int divider_ms4 = 0, noteDuration_ms4 = 0;
+                
+/*
+ * note : nốt nhạc
+ * whole note : nốt tròn 
+ * note duration : độ dài của một nốt nhạc tính theo thời gian
+ * divider : bộ chia
+ * Thông số là thời gian ms
+ */
+
+/*----------------------------END MUSIC 4--------------------------*/
+
+/*----------------------------END HEADER---------------------------*/
+
+
+/*-------------------------------BODY------------------------------*/
+
+void setup() 
+{
+  Serial.begin(9600); 
+  /* Mở cổng serial với mức baudrate là 9600 (Tốc độ truyền thông qua kênh dữ liệu 9600bd)
+   * Thiết lập giao tiếp nối tiếp giữa bo Arduino và một thiết bị khác
+   */
+  pinMode(music_ms1, OUTPUT); // Thiết đặt chân music_ms1 là OUTPUT
+  pinMode(music_ms2, OUTPUT); // Thiết đặt chân music_ms2 là OUTPUT
+  pinMode(music_ms3, OUTPUT); // Thiết đặt chân music_ms3 là OUTPUT
+  pinMode(music_ms4, OUTPUT); // Thiết đặt chân music_ms4 là OUTPUT
+}
+
+void loop() 
+{
+  while (Serial.available()) // Xét xem đã có dữ liệu chưa từ biến điều khiển bài hát data
+  { 
+        delay(30); // Dừng chương trình trong 30ms để ổn định hơn 
+        char r = Serial.read(); // Tiến hành đọc
+        if (r == '#') //Thoát khỏi vòng lặp khi phát hiện từ #
+        {
+          break;
+        } 
+        data += r; 
+  } 
+  
+  if (data.length() > 0)
+  {      
+      Serial.println(data);  
+      if (data == "turn on music 1" || data == "1")
+      { 
+          // Xuất ra từng nốt nhạc 
+          for (int thisNote_ms1 = 0; thisNote_ms1 < notes_ms1 * 2; thisNote_ms1 = thisNote_ms1 + 2) 
+          {
+               /*---Lệnh tắt nhạc nếu không muốn nghe nữa---*/
+               data=""; // Thiết lập lại biến điều khiển bài hát
+               while (Serial.available()) 
+               { 
+                     delay(30); // Dừng chương trình trong 30ms để ổn định hơn 
+                     char r1 = Serial.read(); // Tiến hành đọc
+                     if (r1 == '#') // Thoát khỏi vòng lặp khi phát hiện từ #
+                     {
+                         break;
+                     } 
+                     data += r1; 
+               } 
+               if (data == "turn off music 1" || data == "0") 
+               {
+                  break; 
+               }
+               /*-------------------------------------------*/
+
+               // Tính toán thời lượng nốt nhạc
+               divider_ms1 = melody_ms1[thisNote_ms1 + 1];
+               if (divider_ms1 > 0) {
+                  noteDuration_ms1 = (wholenote_ms1) / divider_ms1;
+               } 
+               else if (divider_ms1 < 0) {
+                       noteDuration_ms1 = (wholenote_ms1) / abs(divider_ms1);
+                       noteDuration_ms1 *= 1.5; // Cộng 50% vào thời lượng của một nốt
+               }
+               tone(music_ms1, melody_ms1[thisNote_ms1], noteDuration_ms1 * 0.9); // Thời lượng nốt nhạc
+               delay(noteDuration_ms1); // Thêm thời lượng của một nốt nhạc => Phân biệt giữa các nốt nhạc (Nói cách khác là tạm dừng giữa các nốt nhạc)  
+               noTone(music_ms1); // Ngừng phát nhạc để sau đó chơi nhạc tiếp 
+          }
+      }
+      else if (data == "turn on music 2" || data == "2") 
+      {
+           // Xuất ra từng nốt nhạc 
+           for (int thisNote_ms2 = 0; thisNote_ms2 < notes_ms2 * 2; thisNote_ms2 = thisNote_ms2 + 2) 
+           {
+               /*---Lệnh tắt nhạc nếu không muốn nghe nữa---*/
+               data=""; // Thiết lập lại biến điều khiển bài hát
+               while (Serial.available()) 
+               { 
+                     delay(30); // Dừng chương trình trong 30ms để ổn định hơn
+                     char r2 = Serial.read(); // Tiến hành đọc
+                     if (r2 == '#') // Thoát khỏi vòng lặp khi phát hiện từ #
+                     {
+                         break;
+                     } 
+                     data += r2; 
+               } 
+               if (data == "turn off music 2" || data == "0") 
+               {
+                  break; 
+               }
+               /*-------------------------------------------*/
+            
+               divider_ms2 = melody_ms2[thisNote_ms2 + 1];
+               if (divider_ms2 > 0) 
+               {
+                  noteDuration_ms2 = (wholenote_ms2) / divider_ms2;
+               } 
+               else if (divider_ms2 < 0) 
+               {
+                       noteDuration_ms2 = (wholenote_ms2) / abs(divider_ms2);
+                       noteDuration_ms2 *= 1.5; // Cộng 50% vào thời lượng của một nốt
+               }
+               tone(music_ms2, melody_ms2[thisNote_ms2], noteDuration_ms2 * 0.9); // Thời lượng nốt nhạc
+               delay(noteDuration_ms2); // Thêm thời lượng của một nốt nhạc => Phân biệt giữa các nốt nhạc (Nói cách khác là tạm dừng giữa các nốt nhạc) 
+               noTone(music_ms2); // Ngừng phát nhạc để sau đó chơi nhạc tiếp
+           }
+      }
+      else if (data == "turn on music 3" || data == "3") 
+      {
+              // Xuất ra từng nốt nhạc 
+              for (int thisNote_ms3 = 0; thisNote_ms3 < notes_ms3 * 2; thisNote_ms3 = thisNote_ms3 + 2) 
+              {
+                   /*---Lệnh tắt nhạc nếu không muốn nghe nữa---*/ 
+                   data=""; // Thiết lập lại biến điều khiển bài hát
+                   while (Serial.available()) 
+                   { 
+                         delay(30); // Dừng chương trình trong 30ms để ổn định hơn
+                         char r3 = Serial.read(); // Tiến hành đọc
+                         if (r3 == '#') // Thoát khỏi vòng lặp khi phát hiện từ #
+                         {
+                            break;
+                         } 
+                         data += r3; 
+                   } 
+                   if (data == "turn off music 3" || data == "0") 
+                   {
+                      break; 
+                   }
+                   /*-------------------------------------------*/
+                
+                  divider_ms3 = melody_ms3[thisNote_ms3 + 1];
+                  if (divider_ms3 > 0) 
+                  {
+                     noteDuration_ms3 = (wholenote_ms3) / divider_ms3;
+                  } 
+                  else if (divider_ms3 < 0) 
+                  {
+                          noteDuration_ms3 = (wholenote_ms3) / abs(divider_ms3);
+                          noteDuration_ms3 *= 1.5; // Cộng 50% vào thời lượng của một nốt
+                  }
+                  tone(music_ms3, melody_ms3[thisNote_ms3], noteDuration_ms3*0.9); // Thời lượng nốt nhạc
+                  delay(noteDuration_ms3); // Thêm thời lượng của một nốt nhạc => Phân biệt giữa các nốt nhạc (Nói cách khác là tạm dừng giữa các nốt nhạc)
+                  noTone(music_ms3); // Ngừng phát nhạc để sau đó chơi nhạc tiếp 
+              }
+      }
+      else if (data == "turn on music 4" || data == "4")
+      {   
+             // Xuất ra từng nốt nhạc 
+             for (int thisNote_ms4 = 0; thisNote_ms4 < notes_ms4 * 2; thisNote_ms4 = thisNote_ms4 + 2) 
+             {
+                  /*---Lệnh tắt nhạc nếu không muốn nghe nữa---*/ 
+                   data=""; // Thiết lập lại biến điều khiển bài hát
+                   while (Serial.available()) 
+                   { 
+                         delay(30); // Dừng chương trình trong 30ms để ổn định hơn
+                         char r4 = Serial.read(); // Tiến hành đọc
+                         if (r4 == '#') // Thoát khỏi vòng lặp khi phát hiện từ #
+                         {
+                            break;
+                         } 
+                         data += r4; 
+                   } 
+                   if (data == "turn off music 4" || data == "0") 
+                   {
+                      break; 
+                   }
+                   /*-------------------------------------------*/
+              
+                 divider_ms4 = melody_ms4[thisNote_ms4 + 1];
+                 if (divider_ms4 > 0) {
+                    // regular note, just proceed
+                    noteDuration_ms4 = (wholenote_ms4) / divider_ms4;
+                 } else if (divider_ms4 < 0) {
+                            noteDuration_ms4 = (wholenote_ms4) / abs(divider_ms4);
+                            noteDuration_ms4 *= 1.5; // Cộng 50% vào thời lượng của một nốt
+                 }
+                 tone(music_ms4, melody_ms4[thisNote_ms4], noteDuration_ms4 * 0.9); // Thời lượng nốt nhạc
+                 delay(noteDuration_ms4); // Thêm thời lượng của một nốt nhạc => Phân biệt giữa các nốt nhạc (Nói cách khác là tạm dừng giữa các nốt nhạc)
+                 noTone(music_ms4); // Ngừng phát nhạc để sau đó chơi nhạc tiếp 
+             }
+      }
+      
+  data="";  // Thiết lập lại biến điều khiển bài hát
+  }
+}
+
+/*-----------------------------END BODY----------------------------*/
